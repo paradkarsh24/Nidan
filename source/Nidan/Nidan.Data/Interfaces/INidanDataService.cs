@@ -15,6 +15,7 @@ namespace Nidan.Data.Interfaces
         Personnel CreatePersonnel(int organisationId, Personnel personnel);
         T Create<T>(int organisationId, T t) where T : class;
         void Create<T>(int organisationId, IEnumerable<T> t) where T : class;
+        Mobilization CreateMobilization(int organisationId, Mobilization mobilization);
 
         // Retrieve
         AbsenceType RetrieveAbsenceType(int organisationId, int absenceTypeId, Expression<Func<AbsenceType, bool>> predicate);
@@ -29,12 +30,16 @@ namespace Nidan.Data.Interfaces
         PagedResult<PersonnelSearchField> RetrievePersonnelBySearchKeyword(int organisationId, string searchKeyword, List<OrderBy> orderBy = null, Paging paging = null);
         List<T> Retrieve<T>(int organisationId, Expression<Func<T, bool>> predicate) where T : class;
         bool PersonnelEmploymentHasAbsences(int organisationId, int personnelId, int employmentId);
+        PagedResult<MobilizationSearchField> RetrieveMobilizationBySearchKeyword(int organisationId, string searchKeyword, List<OrderBy> orderBy = null, Paging paging = null);
+        PagedResult<Mobilization> RetrieveMobilizations(int organisationId, Expression<Func<Mobilization, bool>> predicate, List<OrderBy> orderBy = null, Paging paging = null);
+        Mobilization RetrieveMobilization(int organisationId, int mobilizationId, Expression<Func<Mobilization, bool>> predicate);
 
         // Update
-        
+
         T UpdateEntityEntry<T>(T t) where T : class;
         T UpdateOrganisationEntityEntry<T>(int organisationId, T t) where T : class;
         // Delete
         void Delete<T>(int organisationId, Expression<Func<T, bool>> predicate) where T : class;
+
     }
 }

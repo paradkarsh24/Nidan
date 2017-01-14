@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
 using DocumentService.API.RESTClient.Interfaces;
 using DocumentService.API.RESTClient.Models;
@@ -45,6 +46,8 @@ namespace Nidan.Business
             return _nidanDataService.CreatePersonnel(organisationId, personnel);
         }
 
+
+
         public ValidationResult<AbsenceType> CreateAbsenceType(int organisationId, AbsenceType absenceType)
         {
             var validationResult = AbsenceTypeAlreadyExists(organisationId, null, absenceType.Name);
@@ -64,7 +67,10 @@ namespace Nidan.Business
             return validationResult;
         }
 
-
+        public Mobilization CreateMobilization (int organisationId,Mobilization mobilization)
+        {
+            return _nidanDataService.Create<Mobilization>(organisationId, mobilization);
+        }
 
         #endregion
 
@@ -80,6 +86,24 @@ namespace Nidan.Business
         {
             return _nidanDataService.RetrievePersonnel(organisationId, p => true, orderBy, paging);
         }
+
+        public PagedResult<Mobilization> RetrieveMobilizations(int organisationId,List<OrderBy> orderBy = null, Paging paging = null)
+        {
+            return _nidanDataService.RetrieveMobilizations(organisationId, p => true, orderBy, paging);
+        }
+
+        public Mobilization RetrieveMobilization(int organisationId, int mobilizationId, Expression<Func<Mobilization, bool>> predicate)
+        {
+            var mobilization = _nidanDataService.RetrieveMobilization(organisationId, mobilizationId, p => true);
+            return mobilization;
+        }
+
+        public Mobilization RetrieveMobilization(int organisationId, int id)
+        {
+            return _nidanDataService.RetrieveMobilization(organisationId, id, p => true);
+        }
+
+        
 
         #region // Retrieve
 
@@ -221,6 +245,33 @@ namespace Nidan.Business
             };
         }
 
+        public Permissions RetrieveMobilizationPermissions(bool isAdmin, int organisationId, int userMobilizationId, int? mobilizationId = null)
+        {
+            var isManagerOf = true;
+            var isPerson = userMobilizationId == mobilizationId;
+            var mobilizationNode = true;
+            var mobilizationIsTerminated = false;
+
+            return new Permissions
+            {
+                IsAdmin = isAdmin,
+                IsManager = isManagerOf,
+                CanViewProfile = isAdmin || isManagerOf || isPerson,
+                CanEditProfile = isAdmin || (!mobilizationIsTerminated && isPerson),
+                CanCreateAbsence = isAdmin || (!mobilizationIsTerminated && (isManagerOf || isPerson)),
+                CanEditAbsence = isAdmin || isManagerOf || (!mobilizationIsTerminated && isPerson),
+                CanCancelAbsence = isAdmin || isManagerOf || (!mobilizationIsTerminated && isPerson),
+                CanApproveAbsence = isAdmin || isManagerOf,
+                CanEditEntitlements = isAdmin,
+                CanEditEmployments = isAdmin
+            };
+        }
+
+        public PagedResult<MobilizationSearchField> RetrieveMobilizationBySearchKeyword(int organisationId, string searchKeyword, List<OrderBy> orderBy = null, Paging paging = null)
+        {
+            return _nidanDataService.RetrieveMobilizationBySearchKeyword(organisationId, searchKeyword, orderBy, paging);
+        }
+
         #endregion
 
         #region // Update
@@ -282,6 +333,11 @@ namespace Nidan.Business
             return _nidanDataService.UpdateOrganisationEntityEntry(organisationId, personnel);
         }
 
+        public Mobilization UpdateMobilization(int organisationId, Mobilization mobilization)
+        {
+            return _nidanDataService.UpdateOrganisationEntityEntry(organisationId, mobilization);
+        }
+
         #endregion
 
         //Delete
@@ -290,7 +346,6 @@ namespace Nidan.Business
             _nidanDataService.Delete<Personnel>(organisationId, e => e.PersonnelId == personnelId);
         }
 
-
-
+        
     }
 }

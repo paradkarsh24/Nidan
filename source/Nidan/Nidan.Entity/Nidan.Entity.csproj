@@ -84,20 +84,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbsenceType.cs" />
+    <Compile Include="Centre.cs" />
     <Compile Include="Colour.cs" />
     <Compile Include="Alert.cs" />
     <Compile Include="AspNetUsersAlertSchedule.cs" />
     <Compile Include="Dto\Permissions.cs" />
     <Compile Include="Dto\TenantOrganisation.cs" />
+    <Compile Include="Event.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Host.cs" />
     <Compile Include="Interfaces\INotAbsenceDay.cs" />
     <Compile Include="Interfaces\IOrganisationFilterable.cs" />
     <Compile Include="Dto\OrderBy.cs" />
+    <Compile Include="Mobilization.cs" />
+    <Compile Include="MobilizationSearchField.cs" />
     <Compile Include="Organisation.cs" />
     <Compile Include="Dto\PagedResult.cs" />
     <Compile Include="Dto\Paging.cs" />
     <Compile Include="Partials\AbsenceType.cs" />
+    <Compile Include="Partials\Mobilization.cs" />
     <Compile Include="Partials\Organisation.cs" />
     <Compile Include="Partials\Host.cs" />
     <Compile Include="Partials\Personnel.cs" />

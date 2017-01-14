@@ -20,6 +20,10 @@ namespace Nidan.Data.Models
         public virtual DbSet<Organisation> Organisations { get; set; }
         public virtual DbSet<Personnel> Personnels { get; set; }
         public virtual DbSet<UserAuthorisationFilter> UserAuthorisationFilters { get; set; }
+        public virtual DbSet<Centre> Centres { get; set; }
+        public virtual DbSet<Event> Events { get; set; }
+        public virtual DbSet<Mobilization> Mobilizations { get; set; }
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -198,7 +202,7 @@ namespace Nidan.Data.Models
                 .Property(e => e.BankTelephone)
                 .IsUnicode(false);
 
-       
+
 
             //modelBuilder.Entity<PublicHoliday>()
             //    .HasMany(e => e.CountryPublicHolidays)
@@ -216,14 +220,57 @@ namespace Nidan.Data.Models
             //    .WithRequired(e => e.WorkingPattern)
             //    .WillCascadeOnDelete(false);
 
-       
+
 
             //modelBuilder.Entity<CompanyBuilding>()
             //.HasMany(e => e.Buildings)
             //.WithRequired(e => e.CompanyBuilding)
             //.WillCascadeOnDelete(false);
 
-          
+            modelBuilder.Entity<Centre>()
+                  .Property(e => e.CentreCode)
+                  .IsUnicode(false);
+
+            modelBuilder.Entity<Centre>()
+                .Property(e => e.Name)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Centre>()
+                .HasMany(e => e.Events)
+                .WithRequired(e => e.Centre)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Event>()
+                .Property(e => e.Name)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Event>()
+                .Property(e => e.CreatedBy)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Organisation>()
+                .HasMany(e => e.Centres)
+                .WithRequired(e => e.Organisation)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Organisation>()
+                .HasMany(e => e.Events)
+                .WithRequired(e => e.Organisation)
+                .HasForeignKey(e => e.OrganistionId)
+                .WillCascadeOnDelete(false);
+
+           
+            modelBuilder.Entity<Mobilization>()
+                .Property(e => e.Name)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Mobilization>()
+                .Property(e => e.InterestedCourse)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Mobilization>()
+                .Property(e => e.Qualification)
+                .IsUnicode(false);
 
             base.OnModelCreating(modelBuilder);
         }

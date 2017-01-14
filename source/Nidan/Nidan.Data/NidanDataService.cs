@@ -35,7 +35,18 @@ namespace Nidan.Data
                 return absenceType;
             }
         }
-       
+
+        public Mobilization CreateMobilization(int organisationId, Mobilization mobilization)
+        {
+            using (var context = _databaseFactory.Create(organisationId))
+            {
+                mobilization = context.Mobilizations.Add(mobilization);
+                context.SaveChanges();
+
+                return mobilization;
+            }
+        }
+
         public Personnel CreatePersonnel(int organisationId, Personnel personnel)
         {
             using (var context = _databaseFactory.Create(organisationId))
@@ -226,9 +237,6 @@ namespace Nidan.Data
         }
 
 
-     
-
-
         public UserAuthorisationFilter RetrieveUserAuthorisation(string aspNetUserId)
         {
             using (ReadUncommitedTransactionScope)
@@ -272,6 +280,63 @@ namespace Nidan.Data
             }
         }
 
+        public PagedResult<MobilizationSearchField> RetrieveMobilizationBySearchKeyword(int organisationId, string searchKeyword, List<OrderBy> orderBy = null, Paging paging = null)
+        {
+            using (ReadUncommitedTransactionScope)
+            using (var context = _databaseFactory.Create(organisationId))
+            {
+                var category = new SqlParameter("@SearchKeyword", searchKeyword);
+                return context.Database
+                  .SqlQuery<MobilizationSearchField>("SearchMobilization @SearchKeyword", category).ToList().AsQueryable().
+                   OrderBy(orderBy ?? new List<OrderBy>
+                   {
+                        new OrderBy
+                        {
+                            Property = "Name",
+                            Direction = System.ComponentModel.ListSortDirection.Ascending
+                        }
+                   })
+                .Paginate(paging);
+            }
+        }
+
+        public PagedResult<Mobilization> RetrieveMobilizations(int organisationId, Expression<Func<Mobilization, bool>> predicate, List<OrderBy> orderBy = null, Paging paging = null)
+        {
+            using (ReadUncommitedTransactionScope)
+            using (var context = _databaseFactory.Create(organisationId))
+            {
+
+                return context
+                    .Mobilizations
+                    .Include(p => p.Organisation)
+                    .AsNoTracking()
+                    .Where(predicate)
+                    .OrderBy(orderBy ?? new List<OrderBy>
+                    {
+                        new OrderBy
+                        {
+                            Property = "Forenames",
+                            Direction = System.ComponentModel.ListSortDirection.Ascending
+                        }
+                    })
+                    .Paginate(paging);
+            }
+        }
+
+        public Mobilization RetrieveMobilization(int organisationId, int mobilizationId, Expression<Func<Mobilization, bool>> predicate)
+        {
+            using (ReadUncommitedTransactionScope)
+            using (var context = _databaseFactory.Create(organisationId))
+            {
+                return context
+                    .Mobilizations
+                    .AsNoTracking()
+                    .Where(predicate)
+                    .SingleOrDefault(p => p.MobilizationId == mobilizationId);
+
+            }
+        }
+
         #endregion
 
         #region // Update
@@ -310,6 +375,8 @@ namespace Nidan.Data
                 context.SaveChanges();
             }
         }
+
+        
         #endregion
     }
 }
