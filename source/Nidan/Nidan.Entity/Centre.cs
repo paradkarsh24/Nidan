@@ -26,5 +26,7 @@ namespace Nidan.Entity
         public int OrganisationId { get; set; }
 
         public virtual Organisation Organisation { get; set; }
+
+        public virtual ICollection<Event> Events { get; set; }
     }
 }

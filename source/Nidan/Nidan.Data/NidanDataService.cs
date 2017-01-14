@@ -46,6 +46,18 @@ namespace Nidan.Data
                 return enquiry;
             }
         }
+        
+         public Mobilization CreateMobilization(int organisationId, Mobilization mobilization)
+        {
+            using (var context = _databaseFactory.Create(organisationId))
+            {
+                mobilization = context.Mobilizations.Add(mobilization);
+                context.SaveChanges();
+
+                return mobilization;
+            }
+        }
+
 
         public Personnel CreatePersonnel(int organisationId, Personnel personnel)
         {
@@ -80,21 +92,6 @@ namespace Nidan.Data
         #endregion
 
         #region // Retrieve
-
-
-
-        //public bool CanDeleteDivisionSite(int organisationId, int siteId, int divisionId)
-        //{
-        //    using (ReadUncommitedTransactionScope)
-        //    using (var context = _databaseFactory.Create(organisationId))
-        //    {
-        //        return context
-        //            .Employments
-        //            .Include(a => a.Building)
-        //            .Any(a => a.DivisionId == divisionId && a.Building.SiteId == siteId);
-
-        //    }
-        //}
 
         public Event RetrieveEvent(int organisationId, int eventId, Expression<Func<Event, bool>> predicate)
         {
@@ -304,9 +301,6 @@ namespace Nidan.Data
             }
         }
 
-
-
-
         public UserAuthorisationFilter RetrieveUserAuthorisation(string aspNetUserId)
         {
             using (ReadUncommitedTransactionScope)
@@ -316,6 +310,29 @@ namespace Nidan.Data
                     .UserAuthorisationFilters
                     .AsNoTracking()
                     .FirstOrDefault(u => u.AspNetUsersId == aspNetUserId);
+            }
+        }
+
+        public PagedResult<Mobilization> RetrieveMobilizations(int organisationId, Expression<Func<Mobilization, bool>> predicate, List<OrderBy> orderBy = null, Paging paging = null)
+        {
+            using (ReadUncommitedTransactionScope)
+            using (var context = _databaseFactory.Create(organisationId))
+            {
+
+                return context
+                    .Mobilizations
+                    .Include(p => p.Organisation)
+                    .AsNoTracking()
+                    .Where(predicate)
+                    .OrderBy(orderBy ?? new List<OrderBy>
+                    {
+                        new OrderBy
+                        {
+                            Property = "Forenames",
+                            Direction = System.ComponentModel.ListSortDirection.Ascending
+                        }
+                    })
+                    .Paginate(paging);
             }
         }
 
@@ -404,6 +421,21 @@ namespace Nidan.Data
                     .AsNoTracking()
                     .Where(predicate)
                     .SingleOrDefault(p => p.EnquiryId == enquiryId);
+
+            }
+        }
+
+
+        public Mobilization RetrieveMobilization(int organisationId, int mobilizationId, Expression<Func<Mobilization, bool>> predicate)
+        {
+            using (ReadUncommitedTransactionScope)
+            using (var context = _databaseFactory.Create(organisationId))
+            {
+                return context
+                    .Mobilizations
+                    .AsNoTracking()
+                    .Where(predicate)
+                    .SingleOrDefault(p => p.MobilizationId == mobilizationId);
 
             }
         }

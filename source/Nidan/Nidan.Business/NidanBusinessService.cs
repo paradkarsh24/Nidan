@@ -46,6 +46,8 @@ namespace Nidan.Business
             return _nidanDataService.CreatePersonnel(organisationId, personnel);
         }
 
+
+
         public ValidationResult<AbsenceType> CreateAbsenceType(int organisationId, AbsenceType absenceType)
         {
             var validationResult = AbsenceTypeAlreadyExists(organisationId, null, absenceType.Name);
@@ -70,11 +72,17 @@ namespace Nidan.Business
             return _nidanDataService.Create<Question>(organisationId, question);
         }
         
+         public Mobilization CreateMobilization (int organisationId,Mobilization mobilization)
+        {
+            return _nidanDataService.Create<Mobilization>(organisationId, mobilization);
+        }
+
+
+        
          public Enquiry CreateEnquiry(int organisationId, Enquiry enquiry)
         {
             return _nidanDataService.Create<Enquiry>(organisationId, enquiry);
         }
-
         #endregion
 
         #region // Retrieve
@@ -111,6 +119,23 @@ namespace Nidan.Business
         {
             return _nidanDataService.RetrieveEnquiries(organisationId, p => true, orderBy, paging);
         }
+        
+        public PagedResult<Mobilization> RetrieveMobilizations(int organisationId,List<OrderBy> orderBy = null, Paging paging = null)
+        {
+            return _nidanDataService.RetrieveMobilizations(organisationId, p => true, orderBy, paging);
+        }
+
+        public Mobilization RetrieveMobilization(int organisationId, int mobilizationId, Expression<Func<Mobilization, bool>> predicate)
+        {
+            var mobilization = _nidanDataService.RetrieveMobilization(organisationId, mobilizationId, p => true);
+            return mobilization;
+        }
+
+        public Mobilization RetrieveMobilization(int organisationId, int id)
+        {
+            return _nidanDataService.RetrieveMobilization(organisationId, id, p => true);
+        }
+
 
         public Enquiry RetrieveEnquiry(int organisationId, int enquiryId, Expression<Func<Enquiry, bool>> predicate)
         {
@@ -289,28 +314,6 @@ namespace Nidan.Business
             return _nidanDataService.Retrieve<EventActivityType>(organisationId, e => true);
         }
 
-        //public Permissions RetrieveEnquiryPermissions(bool isAdmin, int organisationId, int userEnquiryId, int? enquiryId = null)
-        //{
-        //    var isManagerOf = true;
-        //    var isPerson = userEnquiryId == enquiryId;
-        //    var enquiryNode = true;
-        //    var enquiryIsTerminated = false;
-
-        //    return new Permissions
-        //    {
-        //        IsAdmin = isAdmin,
-        //        IsManager = isManagerOf,
-        //        CanViewProfile = isAdmin || isManagerOf || isPerson,
-        //        CanEditProfile = isAdmin || (!enquiryIsTerminated && isPerson),
-        //        CanCreateAbsence = isAdmin || (!enquiryIsTerminated && (isManagerOf || isPerson)),
-        //        CanEditAbsence = isAdmin || isManagerOf || (!enquiryIsTerminated && isPerson),
-        //        CanCancelAbsence = isAdmin || isManagerOf || (!enquiryIsTerminated && isPerson),
-        //        CanApproveAbsence = isAdmin || isManagerOf,
-        //        CanEditEntitlements = isAdmin,
-        //        CanEditEmployments = isAdmin
-        //    };
-        //}
-
         #endregion
 
         #region // Update
@@ -376,6 +379,11 @@ namespace Nidan.Business
         {
             return _nidanDataService.UpdateOrganisationEntityEntry(organisationId, enquiry);
         }
+        
+         public Mobilization UpdateMobilization(int organisationId, Mobilization mobilization)
+        {
+            return _nidanDataService.UpdateOrganisationEntityEntry(organisationId, mobilization);
+        }
 
         #endregion
 
@@ -390,8 +398,7 @@ namespace Nidan.Business
         {
             return _nidanDataService.RetrieveEnquiries(organisationId, p => true, orderBy, paging);
         }
-
+        
         #endregion
-
     }
 }

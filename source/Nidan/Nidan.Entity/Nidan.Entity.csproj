@@ -101,12 +101,15 @@
     <Compile Include="Interfaces\INotAbsenceDay.cs" />
     <Compile Include="Interfaces\IOrganisationFilterable.cs" />
     <Compile Include="Dto\OrderBy.cs" />
+    <Compile Include="Mobilization.cs" />
+    <Compile Include="MobilizationSearchField.cs" />
     <Compile Include="Organisation.cs" />
     <Compile Include="Dto\PagedResult.cs" />
     <Compile Include="Dto\Paging.cs" />
     <Compile Include="Partials\AbsenceType.cs" />
     <Compile Include="Partials\Event.cs" />
     <Compile Include="Partials\Enquiry.cs" />
+    <Compile Include="Partials\Mobilization.cs" />
     <Compile Include="Partials\Organisation.cs" />
     <Compile Include="Partials\Host.cs" />
     <Compile Include="Partials\Personnel.cs" />

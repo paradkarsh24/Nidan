@@ -15,6 +15,8 @@ namespace Nidan.Business.Interfaces
         Personnel CreatePersonnel(int organisationId, Personnel personnel);
         Question CreateQuestion(int organisationId, Question personnel);
         Enquiry CreateEnquiry(int organisationId, Enquiry enquiry);
+        Mobilization CreateMobilization(int organisationId, Mobilization mobilization);
+
 
         // Retrieve
         PagedResult<Event> RetrieveEvents(int organisationId, Expression<Func<Event, bool>> predicate, List<OrderBy> orderBy = null, Paging paging = null);
@@ -33,15 +35,19 @@ namespace Nidan.Business.Interfaces
         List<EventActivityType> RetrieveActivityTypes(int organisationId); 
         PagedResult<Enquiry> RetrieveEnquiries(int organisationId, List<OrderBy> orderBy = null, Paging paging = null);
         Enquiry RetrieveEnquiry(int organisationId, int personnelId, Expression<Func<Enquiry, bool>> predicate);
+        Mobilization RetrieveMobilization(int organisationId, int id);
+        PagedResult<Mobilization> RetrieveMobilizations(int organisationId, List<OrderBy> orderBy = null, Paging paging = null);
+        Mobilization RetrieveMobilization(int organisationId, int mobilizationId, Expression<Func<Mobilization, bool>> predicate);
         Enquiry RetrieveEnquiry(int organisationId, int id);
-        //Permissions RetrieveEnquiryPermissions(bool isAdmin, int organisationId, int userEnquiryId, int? enquiryId = null);
-        //PagedResult<EnquirySearchField> RetrieveEnquiryBySearchKeyword(int organisationId, string searchKeyword, List<OrderBy> orderBy = null, Paging paging = null);
+
         // Update
         void UploadPhoto(int organisationId, int personnelId, byte[] photo);
         Personnel UpdatePersonnel(int organisationId, Personnel personnel);
         Enquiry UpdateEnquiry(int organisationId, Enquiry enquiry);
+        Mobilization UpdateMobilization(int organisationId, Mobilization mobilization);
 
         //Delete
         void DeletePersonnel(int organisationId, int personnelId);
+        
     }
 }

@@ -20,10 +20,12 @@ namespace Nidan.Data.Models
         public virtual DbSet<Organisation> Organisations { get; set; }
         public virtual DbSet<Personnel> Personnels { get; set; }
         public virtual DbSet<UserAuthorisationFilter> UserAuthorisationFilters { get; set; }
-        public virtual DbSet<Event> Events { get; set; }
         public virtual DbSet<EventBudget> EventBudgets { get; set; }
         public virtual DbSet<Enquiry> Enquiries { get; set; }
         public virtual DbSet<Centre> Centres { get; set; }
+        public virtual DbSet<Event> Events { get; set; }
+        public virtual DbSet<Mobilization> Mobilizations { get; set; }
+
         public virtual DbSet<EventActivityType> EventActivityTypes { get; set; }
         public virtual DbSet<Question> Questions { get; set; }
         public virtual DbSet<EventQuestion> EventQuestions { get; set; }
@@ -248,7 +250,26 @@ namespace Nidan.Data.Models
                 .Property(e => e.Name)
                 .IsFixedLength();
             modelBuilder.Entity<Enquiry>()
-                .Property(e => e.Qualification)
+                .Property(e => e.Qualification);
+            modelBuilder.Entity<Centre>()
+                  .Property(e => e.CentreCode)
+                  .IsUnicode(false);
+
+            modelBuilder.Entity<Centre>()
+                .Property(e => e.Name)
+                .IsUnicode(false);
+
+            //modelBuilder.Entity<Centre>()
+            //    .HasMany(e => e.Events)
+            //    .WithRequired(e => e.Centre)
+            //    .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Event>()
+                .Property(e => e.Name)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Event>()
+                .Property(e => e.CreatedBy)
                 .IsUnicode(false);
 
             modelBuilder.Entity<Enquiry>()
@@ -331,6 +352,29 @@ namespace Nidan.Data.Models
                 .Property(e => e.Name)
                 .IsUnicode(false);
 
+            //modelBuilder.Entity<Organisation>()
+            //    .HasMany(e => e.Centres)
+            //    .WithRequired(e => e.Organisation)
+            //    .WillCascadeOnDelete(false);
+
+            //modelBuilder.Entity<Organisation>()
+            //    .HasMany(e => e.Events)
+            //    .WithRequired(e => e.Organisation)
+            //    .HasForeignKey(e => e.OrganistionId)
+            //    .WillCascadeOnDelete(false);
+
+           
+            modelBuilder.Entity<Mobilization>()
+                .Property(e => e.Name)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Mobilization>()
+                .Property(e => e.InterestedCourse)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Mobilization>()
+                .Property(e => e.Qualification)
+                .IsUnicode(false);
 
             base.OnModelCreating(modelBuilder);
         }

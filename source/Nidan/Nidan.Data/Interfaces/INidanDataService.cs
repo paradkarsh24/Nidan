@@ -16,6 +16,7 @@ namespace Nidan.Data.Interfaces
         T Create<T>(int organisationId, T t) where T : class;
         void Create<T>(int organisationId, IEnumerable<T> t) where T : class;
         Enquiry CreateEnquiry(int organisationId, Enquiry enquiry);
+        Mobilization CreateMobilization(int organisationId, Mobilization mobilization);
 
         // Retrieve
         PagedResult<Event> RetrieveEvents(int organisationId, Expression<Func<Event, bool>> predicate, List<OrderBy> orderBy = null, Paging paging = null);
@@ -36,6 +37,8 @@ namespace Nidan.Data.Interfaces
         Question RetrieveQuestion(int organisationId, int questionId, Expression<Func<Question, bool>> predicate);
         PagedResult<Enquiry> RetrieveEnquiries(int organisationId, Expression<Func<Enquiry, bool>> predicate, List<OrderBy> orderBy = null, Paging paging = null);
         Enquiry RetrieveEnquiry(int organisationId, int enquiryId, Expression<Func<Enquiry, bool>> predicate);
+        PagedResult<Mobilization> RetrieveMobilizations(int organisationId, Expression<Func<Mobilization, bool>> predicate, List<OrderBy> orderBy = null, Paging paging = null);
+        Mobilization RetrieveMobilization(int organisationId, int mobilizationId, Expression<Func<Mobilization, bool>> predicate);
 
         // Update
 
@@ -43,6 +46,6 @@ namespace Nidan.Data.Interfaces
         T UpdateOrganisationEntityEntry<T>(int organisationId, T t) where T : class;
         // Delete
         void Delete<T>(int organisationId, Expression<Func<T, bool>> predicate) where T : class;
-        //PagedResult<EnquirySearchField> RetrieveEnquiryBySearchKeyword(int organisationId, string searchKeyword, List<OrderBy> orderBy, Paging paging);
+
     }
 }
