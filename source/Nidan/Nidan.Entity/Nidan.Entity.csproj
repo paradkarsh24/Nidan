@@ -84,11 +84,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbsenceType.cs" />
+    <Compile Include="Centre.cs" />
     <Compile Include="Colour.cs" />
     <Compile Include="Alert.cs" />
     <Compile Include="AspNetUsersAlertSchedule.cs" />
     <Compile Include="Dto\Permissions.cs" />
     <Compile Include="Dto\TenantOrganisation.cs" />
+    <Compile Include="Event.cs" />
+    <Compile Include="EventActivityType.cs" />
+    <Compile Include="EventBudget.cs" />
+    <Compile Include="EventQuestion.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Host.cs" />
     <Compile Include="Interfaces\INotAbsenceDay.cs" />
@@ -98,6 +103,7 @@
     <Compile Include="Dto\PagedResult.cs" />
     <Compile Include="Dto\Paging.cs" />
     <Compile Include="Partials\AbsenceType.cs" />
+    <Compile Include="Partials\Event.cs" />
     <Compile Include="Partials\Organisation.cs" />
     <Compile Include="Partials\Host.cs" />
     <Compile Include="Partials\Personnel.cs" />
@@ -108,6 +114,7 @@
     <Compile Include="Dto\Schedule.cs" />
     <Compile Include="Dto\ScheduleItem.cs" />
     <Compile Include="Dto\ScheduleItemType.cs" />
+    <Compile Include="Question.cs" />
     <Compile Include="UserAuthorisationFilter.cs" />
     <Compile Include="Validation\DateGreaterThanAttribute.cs" />
   </ItemGroup>

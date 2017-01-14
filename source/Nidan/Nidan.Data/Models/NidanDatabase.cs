@@ -20,6 +20,12 @@ namespace Nidan.Data.Models
         public virtual DbSet<Organisation> Organisations { get; set; }
         public virtual DbSet<Personnel> Personnels { get; set; }
         public virtual DbSet<UserAuthorisationFilter> UserAuthorisationFilters { get; set; }
+        public virtual DbSet<Event> Events { get; set; }
+        public virtual DbSet<EventBudget> EventBudgets { get; set; }
+        public virtual DbSet<Centre> Centres { get; set; }
+        public virtual DbSet<EventActivityType> EventActivityTypes { get; set; }
+        public virtual DbSet<Question> Questions { get; set; }
+        public virtual DbSet<EventQuestion> EventQuestions { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -198,7 +204,7 @@ namespace Nidan.Data.Models
                 .Property(e => e.BankTelephone)
                 .IsUnicode(false);
 
-       
+
 
             //modelBuilder.Entity<PublicHoliday>()
             //    .HasMany(e => e.CountryPublicHolidays)
@@ -216,14 +222,25 @@ namespace Nidan.Data.Models
             //    .WithRequired(e => e.WorkingPattern)
             //    .WillCascadeOnDelete(false);
 
-       
+
 
             //modelBuilder.Entity<CompanyBuilding>()
             //.HasMany(e => e.Buildings)
             //.WithRequired(e => e.CompanyBuilding)
             //.WillCascadeOnDelete(false);
 
-          
+            modelBuilder.Entity<Event>()
+              .Property(e => e.Name)
+              .IsUnicode(false);
+
+            modelBuilder.Entity<Event>()
+                .Property(e => e.CreatedBy)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<EventActivityType>()
+                .Property(e => e.Name)
+                .IsFixedLength();
+
 
             base.OnModelCreating(modelBuilder);
         }

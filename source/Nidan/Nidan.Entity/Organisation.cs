@@ -22,7 +22,8 @@ namespace Nidan.Entity
             //DivisionSites = new HashSet<DivisionSite>();
             Hosts = new HashSet<Host>();
             Personnels = new HashSet<Personnel>();
-          
+            Events = new HashSet<Event>();
+
         }
 
         public int OrganisationId { get; set; }
@@ -63,6 +64,9 @@ namespace Nidan.Entity
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Personnel> Personnels { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Event> Events { get; set; }
 
     }
 }

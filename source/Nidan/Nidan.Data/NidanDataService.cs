@@ -84,7 +84,39 @@ namespace Nidan.Data
 
         //    }
         //}
-       
+
+        public Event RetrieveEvent(int organisationId, int eventId, Expression<Func<Event, bool>> predicate)
+        {
+            using (ReadUncommitedTransactionScope)
+            using (var context = _databaseFactory.Create(organisationId))
+            {
+                return context
+                    .Events
+                    //.Include(c => c.)
+                    .AsNoTracking()
+                    .Where(predicate)
+                    .SingleOrDefault(p => p.EventId == eventId);
+            }
+        }
+
+        public PagedResult<Event> RetrieveEvents(int organisationId, Expression<Func<Event, bool>> predicate, List<OrderBy> orderBy = null, Paging paging = null)
+        {
+           
+            using (ReadUncommitedTransactionScope)
+            using (var context = _databaseFactory.Create(organisationId))
+            {
+                return context
+                    .Events
+                    //.Include(c => c.EventBudgets)
+                    .AsNoTracking()
+                    .Where(predicate)
+                    .OrderBy(orderBy ?? new List<OrderBy> {
+                        new OrderBy { Property = "Name", Direction = System.ComponentModel.ListSortDirection.Ascending }
+                    })
+                    .Paginate(paging);
+
+            }
+        }
 
         public AbsenceType RetrieveAbsenceType(int organisationId, int absenceTypeId, Expression<Func<AbsenceType, bool>> predicate)
         {
@@ -225,8 +257,43 @@ namespace Nidan.Data
             }
         }
 
+        public PagedResult<Question> RetrieveQuestions(int organisationId, Expression<Func<Question, bool>> predicate, List<OrderBy> orderBy = null, Paging paging = null)
+        {
+            using (ReadUncommitedTransactionScope)
+            using (var context = _databaseFactory.Create(organisationId))
+            {
 
-     
+                return context
+                    .Questions
+                    .Include(p => p.Organisation)
+                    .AsNoTracking()
+                    .Where(predicate)
+                    .OrderBy(orderBy ?? new List<OrderBy>
+                    {
+                        new OrderBy
+                        {
+                            Property = "Description",
+                            Direction = System.ComponentModel.ListSortDirection.Ascending
+                        }
+                    })
+                    .Paginate(paging);
+            }
+        }
+
+        public Question RetrieveQuestion(int organisationId, int questionId, Expression<Func<Question, bool>> predicate)
+        {
+            using (ReadUncommitedTransactionScope)
+            using (var context = _databaseFactory.Create(organisationId))
+            {
+                return context
+                    .Questions
+                    .AsNoTracking()
+                    .Where(predicate)
+                    .SingleOrDefault(p => p.QuestionId == questionId);
+            }
+        }
+
+
 
 
         public UserAuthorisationFilter RetrieveUserAuthorisation(string aspNetUserId)

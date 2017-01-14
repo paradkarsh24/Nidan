@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
 using DocumentService.API.RESTClient.Interfaces;
 using DocumentService.API.RESTClient.Models;
@@ -64,11 +65,15 @@ namespace Nidan.Business
             return validationResult;
         }
 
+        public Question CreateQuestion(int organisationId, Question question)
+        {
+            return _nidanDataService.Create<Question>(organisationId, question);
+        }
 
 
         #endregion
 
-
+        #region // Retrieve
 
         public Personnel RetrievePersonnel(int organisationId, int personnelId)
         {
@@ -81,7 +86,17 @@ namespace Nidan.Business
             return _nidanDataService.RetrievePersonnel(organisationId, p => true, orderBy, paging);
         }
 
-        #region // Retrieve
+
+
+        public Event RetrieveEvent(int organisationId, int eventId, Expression<Func<Event, bool>> predicate)
+        {
+            return _nidanDataService.RetrieveEvent(organisationId, eventId, predicate);
+        }
+
+        public PagedResult<Event> RetrieveEvents(int organisationId, Expression<Func<Event, bool>> predicate, List<OrderBy> orderBy = null, Paging paging = null)
+        {
+            return _nidanDataService.RetrieveEvents(organisationId, predicate, orderBy, paging);
+        }
 
         private ValidationResult<AbsenceType> AbsenceTypeAlreadyExists(int organisationId, int? absenceTypeId, string name)
         {
@@ -219,6 +234,21 @@ namespace Nidan.Business
                 CanEditEntitlements = isAdmin,
                 CanEditEmployments = isAdmin
             };
+        }
+
+        public PagedResult<Question> RetrieveQuestions(int organisationId, Expression<Func<Question, bool>> predicate, List<OrderBy> orderBy, Paging paging)
+        {
+            return _nidanDataService.RetrieveQuestions(organisationId, predicate, orderBy, paging);
+        }
+
+        public Question RetrieveQuestion(int organisationId,int questionId ,Expression<Func<Question, bool>> predicate)
+        {
+            return _nidanDataService.RetrieveQuestion(organisationId, questionId, predicate);
+        }
+
+        public List<EventActivityType> RetrieveActivityTypes(int organisationId)
+        {
+            return _nidanDataService.Retrieve<EventActivityType>(organisationId, e => true);
         }
 
         #endregion
