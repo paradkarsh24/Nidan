@@ -12,7 +12,7 @@ namespace Nidan.Entity
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Centre()
         {
-            Events = new HashSet<Event>();
+            
         }
 
         public int CentreId { get; set; }
@@ -25,7 +25,6 @@ namespace Nidan.Entity
 
         public int OrganisationId { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Event> Events { get; set; }
+        public virtual Organisation Organisation { get; set; }
     }
 }

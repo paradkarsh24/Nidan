@@ -5,6 +5,7 @@ using System.Security.Policy;
 using Nidan.Business.Models;
 using Nidan.Entity;
 using Nidan.Entity.Dto;
+using System.Linq.Expressions;
 
 namespace Nidan.Business.Interfaces
 {
@@ -13,6 +14,7 @@ namespace Nidan.Business.Interfaces
         //Create
         Personnel CreatePersonnel(int organisationId, Personnel personnel);
         Question CreateQuestion(int organisationId, Question personnel);
+        Enquiry CreateEnquiry(int organisationId, Enquiry enquiry);
 
         // Retrieve
         PagedResult<Event> RetrieveEvents(int organisationId, Expression<Func<Event, bool>> predicate, List<OrderBy> orderBy = null, Paging paging = null);
@@ -29,9 +31,15 @@ namespace Nidan.Business.Interfaces
         PagedResult<Question> RetrieveQuestions(int organisationId, Expression<Func<Question, bool>> predicate, List<OrderBy> orderBy = null, Paging paging = null);
         Question RetrieveQuestion(int organisationId, int questionId, Expression<Func<Question, bool>> predicate);
         List<EventActivityType> RetrieveActivityTypes(int organisationId); 
+        PagedResult<Enquiry> RetrieveEnquiries(int organisationId, List<OrderBy> orderBy = null, Paging paging = null);
+        Enquiry RetrieveEnquiry(int organisationId, int personnelId, Expression<Func<Enquiry, bool>> predicate);
+        Enquiry RetrieveEnquiry(int organisationId, int id);
+        //Permissions RetrieveEnquiryPermissions(bool isAdmin, int organisationId, int userEnquiryId, int? enquiryId = null);
+        //PagedResult<EnquirySearchField> RetrieveEnquiryBySearchKeyword(int organisationId, string searchKeyword, List<OrderBy> orderBy = null, Paging paging = null);
         // Update
         void UploadPhoto(int organisationId, int personnelId, byte[] photo);
         Personnel UpdatePersonnel(int organisationId, Personnel personnel);
+        Enquiry UpdateEnquiry(int organisationId, Enquiry enquiry);
 
         //Delete
         void DeletePersonnel(int organisationId, int personnelId);

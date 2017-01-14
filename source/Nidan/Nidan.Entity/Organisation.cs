@@ -13,6 +13,7 @@ namespace Nidan.Entity
         {
             AbsenceTypes = new HashSet<AbsenceType>();
             Alerts = new HashSet<Alert>();
+            Enquiries = new HashSet<Enquiry>();
             //CountryAbsenceTypes = new HashSet<CountryAbsenceType>();
             //CountryPublicHolidays = new HashSet<CountryPublicHoliday>();
             //Divisions = new HashSet<Division>();
@@ -68,5 +69,10 @@ namespace Nidan.Entity
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Event> Events { get; set; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Enquiry> Enquiries { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Centre> Centres { get; set; }
     }
 }

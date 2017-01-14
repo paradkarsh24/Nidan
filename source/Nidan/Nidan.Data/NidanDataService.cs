@@ -35,7 +35,18 @@ namespace Nidan.Data
                 return absenceType;
             }
         }
-       
+
+        public Enquiry CreateEnquiry(int organisationId, Enquiry enquiry)
+        {
+            using (var context = _databaseFactory.Create(organisationId))
+            {
+                enquiry = context.Enquiries.Add(enquiry);
+                context.SaveChanges();
+
+                return enquiry;
+            }
+        }
+
         public Personnel CreatePersonnel(int organisationId, Personnel personnel)
         {
             using (var context = _databaseFactory.Create(organisationId))
@@ -329,6 +340,27 @@ namespace Nidan.Data
             }
         }
 
+        //public PagedResult<EnquirySearchField> RetrieveEnquiryBySearchKeyword(int organisationId, string searchKeyword, List<OrderBy> orderBy, Paging paging)
+        //{
+        //    using (ReadUncommitedTransactionScope)
+        //    using (var context = _databaseFactory.Create(organisationId))
+        //    {
+        //        var category = new SqlParameter("@SearchKeyword", searchKeyword);
+
+        //        return context.Database
+        //            .SqlQuery<EnquirySearchField>("SearchEnquiry @SearchKeyword", category).ToList().AsQueryable().
+        //            OrderBy(orderBy ?? new List<OrderBy>
+        //            {
+        //                new OrderBy
+        //                {
+        //                    Property = "CandidateName",
+        //                    Direction = System.ComponentModel.ListSortDirection.Ascending
+        //                }
+        //            })
+        //            .Paginate(paging);
+        //    }
+        //}
+
         public List<T> Retrieve<T>(int organisationId, Expression<Func<T, bool>> predicate) where T : class
         {
             using (ReadUncommitedTransactionScope)
@@ -336,6 +368,43 @@ namespace Nidan.Data
             {
                 var returnItems = context.Set<T>().Where(predicate).ToList();
                 return returnItems;
+            }
+        }
+
+        public PagedResult<Enquiry> RetrieveEnquiries(int organisationId, Expression<Func<Enquiry, bool>> predicate, List<OrderBy> orderBy = null, Paging paging = null)
+        {
+            using (ReadUncommitedTransactionScope)
+            using (var context = _databaseFactory.Create(organisationId))
+            {
+
+                return context
+                    .Enquiries
+                    .Include(p => p.Organisation)
+                    .AsNoTracking()
+                    .Where(predicate)
+                    .OrderBy(orderBy ?? new List<OrderBy>
+                    {
+                        new OrderBy
+                        {
+                            Property = "CandidateName",
+                            Direction = System.ComponentModel.ListSortDirection.Ascending
+                        }
+                    })
+                    .Paginate(paging);
+            }
+        }
+
+        public Enquiry RetrieveEnquiry(int organisationId, int enquiryId, Expression<Func<Enquiry, bool>> predicate)
+        {
+            using (ReadUncommitedTransactionScope)
+            using (var context = _databaseFactory.Create(organisationId))
+            {
+                return context
+                    .Enquiries
+                    .AsNoTracking()
+                    .Where(predicate)
+                    .SingleOrDefault(p => p.EnquiryId == enquiryId);
+
             }
         }
 
@@ -377,6 +446,10 @@ namespace Nidan.Data
                 context.SaveChanges();
             }
         }
+
+        
+
+
         #endregion
     }
 }

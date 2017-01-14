@@ -92,6 +92,8 @@
     <Compile Include="Dto\TenantOrganisation.cs" />
     <Compile Include="Event.cs" />
     <Compile Include="EventActivityType.cs" />
+    <Compile Include="Enquiry.cs" />
+    <Compile Include="EnquirySearchField.cs" />
     <Compile Include="EventBudget.cs" />
     <Compile Include="EventQuestion.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
@@ -104,6 +106,7 @@
     <Compile Include="Dto\Paging.cs" />
     <Compile Include="Partials\AbsenceType.cs" />
     <Compile Include="Partials\Event.cs" />
+    <Compile Include="Partials\Enquiry.cs" />
     <Compile Include="Partials\Organisation.cs" />
     <Compile Include="Partials\Host.cs" />
     <Compile Include="Partials\Personnel.cs" />

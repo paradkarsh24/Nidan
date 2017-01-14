@@ -58,7 +58,8 @@ namespace Nidan.Controllers
 
 
         protected int UserOrganisationId => ApplicationUser?.OrganisationId ?? 0;
-        protected int UserPersonnelId => ApplicationUser?.PersonnelId ?? 0;        
+        protected int UserPersonnelId => ApplicationUser?.PersonnelId ?? 0;
+       // protected int UserEnquiryId => ApplicationUser?.EnquiryId?? 0;
 
         protected override void OnActionExecuted(ActionExecutedContext filterContext)
         {
@@ -68,7 +69,9 @@ namespace Nidan.Controllers
             {
                 var organisation = UserManager.TenantOrganisation;
                 viewModel.OrganisationName = organisation?.Name ?? string.Empty;
-                viewModel.PersonnelId = UserPersonnelId;                                
+                viewModel.PersonnelId = UserPersonnelId;
+               // viewModel.EnquiryId = UserEnquiryId;
+
             }
 
             base.OnActionExecuted(filterContext);
