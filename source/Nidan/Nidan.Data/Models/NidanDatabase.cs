@@ -24,7 +24,6 @@ namespace Nidan.Data.Models
         public virtual DbSet<EventBudget> EventBudgets { get; set; }
         public virtual DbSet<Enquiry> Enquiries { get; set; }
         public virtual DbSet<Centre> Centres { get; set; }
-        public virtual DbSet<Centre> Centres { get; set; }
         public virtual DbSet<EventActivityType> EventActivityTypes { get; set; }
         public virtual DbSet<Question> Questions { get; set; }
         public virtual DbSet<EventQuestion> EventQuestions { get; set; }
@@ -239,7 +238,8 @@ namespace Nidan.Data.Models
                 .IsUnicode(false);
 
             modelBuilder.Entity<Event>()
-                .Property(e => e.CreatedBy)
+                .Property(e => e.CreatedBy);
+
             modelBuilder.Entity<Enquiry>()
                 .Property(e => e.EmailId)
                 .IsUnicode(false);
