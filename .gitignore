@@ -11,6 +11,7 @@
 *.ilk
 *.log
 [Bb]in
+[Pp]ackages
 [Dd]ebug*/
 *.sbr
 obj/

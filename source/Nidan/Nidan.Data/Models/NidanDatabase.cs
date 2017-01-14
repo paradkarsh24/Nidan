@@ -20,6 +20,8 @@ namespace Nidan.Data.Models
         public virtual DbSet<Organisation> Organisations { get; set; }
         public virtual DbSet<Personnel> Personnels { get; set; }
         public virtual DbSet<UserAuthorisationFilter> UserAuthorisationFilters { get; set; }
+        public virtual DbSet<Enquiry> Enquiries { get; set; }
+        public virtual DbSet<Centre> Centres { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -198,7 +200,7 @@ namespace Nidan.Data.Models
                 .Property(e => e.BankTelephone)
                 .IsUnicode(false);
 
-       
+
 
             //modelBuilder.Entity<PublicHoliday>()
             //    .HasMany(e => e.CountryPublicHolidays)
@@ -216,14 +218,105 @@ namespace Nidan.Data.Models
             //    .WithRequired(e => e.WorkingPattern)
             //    .WillCascadeOnDelete(false);
 
-       
+
 
             //modelBuilder.Entity<CompanyBuilding>()
             //.HasMany(e => e.Buildings)
             //.WithRequired(e => e.CompanyBuilding)
             //.WillCascadeOnDelete(false);
 
-          
+            modelBuilder.Entity<Enquiry>()
+                .Property(e => e.CandidateName)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Enquiry>()
+                .Property(e => e.EmailId)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Enquiry>()
+                .Property(e => e.Qualification)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Enquiry>()
+                .Property(e => e.Address)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Enquiry>()
+                .Property(e => e.GuardianName)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Enquiry>()
+                .Property(e => e.Occupation)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Enquiry>()
+                .Property(e => e.Religion)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Enquiry>()
+                .Property(e => e.CatagoryCode)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Enquiry>()
+                .Property(e => e.Gender)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Enquiry>()
+                .Property(e => e.EducationalQualification)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Enquiry>()
+                .Property(e => e.YearOFPassOut)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Enquiry>()
+                .Property(e => e.Marks)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Enquiry>()
+                .Property(e => e.AreaOfInterest)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Enquiry>()
+                .Property(e => e.HowDidYouKnowAboutUs)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Enquiry>()
+                .Property(e => e.PreTrainingStatus)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Enquiry>()
+                .Property(e => e.EmploymentStatus)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Enquiry>()
+                .Property(e => e.Promotional)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Enquiry>()
+                .Property(e => e.Place)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Enquiry>()
+                .Property(e => e.CounselledBy)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Enquiry>()
+                .Property(e => e.CourseOffered)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Enquiry>()
+                .Property(e => e.Remarks)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Centre>()
+                .Property(e => e.CentreCode)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Centre>()
+                .Property(e => e.Name)
+                .IsUnicode(false);
+
 
             base.OnModelCreating(modelBuilder);
         }
