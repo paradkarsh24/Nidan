@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
 using DocumentService.API.RESTClient.Interfaces;
 using DocumentService.API.RESTClient.Models;
@@ -64,11 +65,14 @@ namespace Nidan.Business
             return validationResult;
         }
 
-
+        public Enquiry CreateEnquiry(int organisationId, Enquiry enquiry)
+        {
+            return _nidanDataService.Create<Enquiry>(organisationId, enquiry);
+        }
 
         #endregion
 
-
+        #region // Retrieve
 
         public Personnel RetrievePersonnel(int organisationId, int personnelId)
         {
@@ -81,7 +85,23 @@ namespace Nidan.Business
             return _nidanDataService.RetrievePersonnel(organisationId, p => true, orderBy, paging);
         }
 
-        #region // Retrieve
+        public Enquiry RetrieveEnquiry(int organisationId, int enquiryId)
+        {
+            var enquiry = _nidanDataService.RetrieveEnquiry(organisationId, enquiryId, p => true);
+            return enquiry;
+        }
+
+        public PagedResult<Enquiry> RetrieveEnquiries(int organisationId, List<OrderBy> orderBy, Paging paging)
+        {
+            return _nidanDataService.RetrieveEnquiries(organisationId, p => true, orderBy, paging);
+        }
+
+        public Enquiry RetrieveEnquiry(int organisationId, int enquiryId, Expression<Func<Enquiry, bool>> predicate)
+        {
+            var enquiry = _nidanDataService.RetrieveEnquiry(organisationId, enquiryId, p => true);
+            return enquiry;
+        }
+
 
         private ValidationResult<AbsenceType> AbsenceTypeAlreadyExists(int organisationId, int? absenceTypeId, string name)
         {
@@ -92,6 +112,18 @@ namespace Nidan.Business
             {
                 Succeeded = !alreadyExists,
                 Errors = alreadyExists ? new List<string> { "Absence type already exists." } : null
+            };
+        }
+
+        private ValidationResult<Enquiry> EnquiryAlreadyExists(int organisationId, int? enquiryId, string name)
+        {
+            var alreadyExists =
+               _nidanDataService.RetrieveEnquiries(organisationId, at => at.CandidateName.ToLower() == name.Trim().ToLower() && at.EnquiryId != (enquiryId ?? -1))
+                    .Items.Any();
+            return new ValidationResult<Enquiry>
+            {
+                Succeeded = !alreadyExists,
+                Errors = alreadyExists ? new List<string> { "Enquiry already exists." } : null
             };
         }
 
@@ -167,6 +199,11 @@ namespace Nidan.Business
             return _nidanDataService.RetrievePersonnelBySearchKeyword(organisationId, searchKeyword, orderBy, paging);
         }
 
+        //public PagedResult<EnquirySearchField> RetrieveEnquiryBySearchKeyword(int organisationId, string searchKeyword, List<OrderBy> orderBy = null, Paging paging = null)
+        //{
+        //    return _nidanDataService.RetrieveEnquiryBySearchKeyword(organisationId, searchKeyword, orderBy, paging);
+        //}
+
         public IEnumerable<Personnel> RetrieveReportsToPersonnel(int organisationId, int personnelId)
         {
             return _nidanDataService.RetrievePersonnel(organisationId, p => p.PersonnelId != personnelId).Items;
@@ -220,6 +257,28 @@ namespace Nidan.Business
                 CanEditEmployments = isAdmin
             };
         }
+
+        //public Permissions RetrieveEnquiryPermissions(bool isAdmin, int organisationId, int userEnquiryId, int? enquiryId = null)
+        //{
+        //    var isManagerOf = true;
+        //    var isPerson = userEnquiryId == enquiryId;
+        //    var enquiryNode = true;
+        //    var enquiryIsTerminated = false;
+
+        //    return new Permissions
+        //    {
+        //        IsAdmin = isAdmin,
+        //        IsManager = isManagerOf,
+        //        CanViewProfile = isAdmin || isManagerOf || isPerson,
+        //        CanEditProfile = isAdmin || (!enquiryIsTerminated && isPerson),
+        //        CanCreateAbsence = isAdmin || (!enquiryIsTerminated && (isManagerOf || isPerson)),
+        //        CanEditAbsence = isAdmin || isManagerOf || (!enquiryIsTerminated && isPerson),
+        //        CanCancelAbsence = isAdmin || isManagerOf || (!enquiryIsTerminated && isPerson),
+        //        CanApproveAbsence = isAdmin || isManagerOf,
+        //        CanEditEntitlements = isAdmin,
+        //        CanEditEmployments = isAdmin
+        //    };
+        //}
 
         #endregion
 
@@ -282,15 +341,26 @@ namespace Nidan.Business
             return _nidanDataService.UpdateOrganisationEntityEntry(organisationId, personnel);
         }
 
+        public Enquiry UpdateEnquiry(int organisationId, Enquiry enquiry)
+        {
+            return _nidanDataService.UpdateOrganisationEntityEntry(organisationId, enquiry);
+        }
+
         #endregion
 
+        #region //Delete
         //Delete
         public void DeletePersonnel(int organisationId, int personnelId)
         {
             _nidanDataService.Delete<Personnel>(organisationId, e => e.PersonnelId == personnelId);
         }
 
+        public PagedResult<Enquiry> RetrieveEnquiries(int organisationId, Expression<Func<Enquiry, bool>> predicate, List<OrderBy> orderBy = null, Paging paging = null)
+        {
+            return _nidanDataService.RetrieveEnquiries(organisationId, p => true, orderBy, paging);
+        }
 
+        #endregion
 
     }
 }
